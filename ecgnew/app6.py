@@ -19,6 +19,9 @@ from reportlab.lib.units import inch
 from PIL import Image as PILImage
 from tensorflow.keras.preprocessing import image as keras_image
 from huggingface_hub import hf_hub_download
+import sys
+st.write(f"**Python version:** {sys.version}")
+
 # --------------------
 # ADVANCED CONFIG
 # --------------------
