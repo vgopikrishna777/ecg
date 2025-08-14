@@ -1,3 +1,4 @@
+ecgnew/ecg.jpeg
 import streamlit as st
 import tensorflow as tf
 import numpy as np
@@ -17,7 +18,7 @@ from reportlab.lib import colors
 from reportlab.lib.units import inch
 from PIL import Image as PILImage
 from tensorflow.keras.preprocessing import image as keras_image
-
+from huggingface_hub import hf_hub_download
 # --------------------
 # ADVANCED CONFIG
 # --------------------
@@ -107,9 +108,8 @@ st.markdown("""
 # --------------------
 # CONFIGURATION & CONSTANTS
 # --------------------
-MODEL_PATH = "/Users/gopikrishna/Desktop/ecg_app/ecg_risk_model.h5"
 GEMINI_API_KEY = "AIzaSyAYilbLvhYzckWlcBqIvTKcdIwdN5DNj4k"
-BACKGROUND_IMAGE_PATH = "/Users/gopikrishna/Desktop/ecg_app/ecg.jpeg"
+BACKGROUND_IMAGE_PATH = "ecgnew/ecg.jpeg"
 
 # Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
@@ -161,7 +161,11 @@ if 'show_landing' not in st.session_state:
 @st.cache_resource
 def load_model():
     try:
-        model = tf.keras.models.load_model(MODEL_PATH, compile=False)
+        model_path = hf_hub_download(
+            repo_id="gk784/ecg-risk-model",
+            filename="ecg_risk_model.h5"
+        )
+        model = tf.keras.models.load_model(model_path)
         return model
     except Exception as e:
         st.error(f"❌ Model loading failed: {e}")
