@@ -20,7 +20,6 @@ from PIL import Image as PILImage
 from tensorflow.keras.preprocessing import image as keras_image
 from huggingface_hub import hf_hub_download
 import sys
-st.write(f"**Python version:** {sys.version}")
 
 # --------------------
 # ADVANCED CONFIG
@@ -112,7 +111,6 @@ st.markdown("""
 # CONFIGURATION & CONSTANTS
 # --------------------
 GEMINI_API_KEY = "AIzaSyAYilbLvhYzckWlcBqIvTKcdIwdN5DNj4k"
-BACKGROUND_IMAGE_PATH = "ecgnew/ecg.jpeg"
 
 # Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
@@ -268,34 +266,18 @@ def show_step_indicator():
 # BACKGROUND SETTER
 # --------------------
 def set_background(image_path=None):
+    st.markdown(
+    """
+    <style>
+    .stApp {
+    background: linear-gradient(135deg, #e3f2fd, #90a4ae);
     
-    if image_path:
-        with open(image_path, "rb") as image_file:
-            encoded_string = base64.b64encode(image_file.read()).decode()
-        st.markdown(
-            f"""
-            <style>
-            .stApp {{
-                background-image: url("data:image/jpeg;base64,{encoded_string}");
-                background-size: cover;
-                background-position: center;
-            }}
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
-    else:
-        st.markdown(
-            """
-            <style>
-            .stApp {
-                background-image: none;
-                background-color: white;
-            }
-            </style>
-            """,
-            unsafe_allow_html=True
-        )
+    
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
 
 # --------------------
 # LANDING PAGE
