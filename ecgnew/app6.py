@@ -303,7 +303,6 @@ def show_landing_page():
         unsafe_allow_html=True
     )
 
-    set_background(BACKGROUND_IMAGE_PATH)
 
     # Heading
     st.markdown(
