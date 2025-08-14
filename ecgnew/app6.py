@@ -1,4 +1,3 @@
-
 import streamlit as st
 import tensorflow as tf
 import numpy as np
@@ -19,8 +18,6 @@ from reportlab.lib.units import inch
 from PIL import Image as PILImage
 from tensorflow.keras.preprocessing import image as keras_image
 from huggingface_hub import hf_hub_download
-import sys
-
 # --------------------
 # ADVANCED CONFIG
 # --------------------
@@ -266,18 +263,19 @@ def show_step_indicator():
 # BACKGROUND SETTER
 # --------------------
 def set_background(image_path=None):
-    st.markdown(
+
+   st.markdown(
     """
     <style>
     .stApp {
-    background: linear-gradient(135deg, #e3f2fd, #90a4ae);
-    
-    
+       background: linear-gradient(135deg, #e3f2fd, #90a4ae);
+
+
     }
     </style>
     """,
     unsafe_allow_html=True
-    )
+)
 
 # --------------------
 # LANDING PAGE
@@ -305,6 +303,7 @@ def show_landing_page():
         unsafe_allow_html=True
     )
 
+    set_background(BACKGROUND_IMAGE_PATH)
 
     # Heading
     st.markdown(
