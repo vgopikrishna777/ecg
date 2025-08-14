@@ -268,7 +268,7 @@ def set_background(image_path=None):
     """
     <style>
     .stApp {
-       background: linear-gradient(135deg, #e3f2fd, #90a4ae);
+       background: black;
 
 
     }
