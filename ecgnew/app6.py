@@ -27,6 +27,17 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded"
 )
+st.markdown(
+    """
+    <style>
+    #MainMenu {visibility: hidden;} /* Hides the hamburger menu */
+    header {visibility: hidden;}    /* Hides the top bar */
+    footer {visibility: hidden;}    /* Hides the footer */
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 # Custom CSS for advanced styling
 st.markdown("""
@@ -269,8 +280,6 @@ def set_background(image_path=None):
     <style>
     .stApp {
        background: black;
-
-
     }
     </style>
     """,
@@ -281,13 +290,15 @@ def set_background(image_path=None):
 # LANDING PAGE
 # --------------------
 def show_landing_page():
-    """Display landing page with centered Get Started button"""
-    # Hide Streamlit default top bar and menu
     st.markdown(
         """
         <style>
+            .stApp {
+                background-color: black;
+            }
             #MainMenu {visibility: hidden;}
             header {visibility: hidden;}
+            footer {visibility: hidden;}
             div.stButton > button {
                 background: linear-gradient(90deg, #27ae60, #2ecc71);
                 color: white;
@@ -297,14 +308,11 @@ def show_landing_page():
                 border-radius: 25px;
                 cursor: pointer;
             }
-        
         </style>
         """,
         unsafe_allow_html=True
     )
 
-
-    # Heading
     st.markdown(
         '<p style="color: white; text-align: center; font-size:44px; font-weight: bold;">🫀 AI-POWERED ECG ANALYSER</p>',
         unsafe_allow_html=True
@@ -314,22 +322,61 @@ def show_landing_page():
         unsafe_allow_html=True
     )
 
-    # Use columns to center button
     col1, col2, col3 = st.columns([8, 3, 7])
     with col2:
-        if st.button("Get Started", key="get_started",type="primary"):
+        if st.button("Get Started", key="get_started", type="primary"):
             st.session_state.show_landing = False
             st.session_state.current_step = 1
             st.rerun()
 
+
+
 # --------------------
 # PROFILE COLLECTION
 # --------------------
+
 def collect_patient_profile():
-    """Collect comprehensive patient profile"""
+    st.markdown(
+    """
+    <style>
+    h2, h3, h4, h5, h6, .stMarkdown strong {
+        color: white !important;
+    }
+    label {
+        color: white !important;
+    }
+    /* Remove hover effect for submit button */
+    div.stButton > button {
+        background-color: black !important;
+        color: white !important;
+        border: none !important;
+        box-shadow: none !important;
+        transition: none !important;
+    }
+    div.stButton > button:hover {
+        background-color: black !important;
+        color: white !important;
+        opacity: 1 !important;
+        transform: none !important;
+    }
+    /* Make success message brighter */
+    .stSuccess {
+        color: #000000 !important;
+        background-color: #00ff00 !important;
+        font-weight: bold;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
+
     st.subheader("👤 Patient Profile Setup")
-    st.write("Please provide your information for personalized ECG analysis:")
-    
+    st.markdown(
+    "<h4 style='font-size:18px;'>Please provide your information for personalized ECG analysis:</h4>",
+    unsafe_allow_html=True)
+
     with st.form("patient_profile_form"):
         col1, col2 = st.columns(2)
         with col1:
@@ -372,22 +419,78 @@ def collect_patient_profile():
 # ECG UPLOAD AND ANALYSIS
 # --------------------
 def ecg_upload_analysis():
-    """Handle ECG image upload and analysis"""
-    st.subheader("📤 ECG Image Upload & Analysis")
+    """Handle ECG image upload and analysis with black background and styled profile summary"""
+    st.markdown(
+        """
+        <style>
+        .stApp {
+            background-color: black;
+            color: white;
+        }
+        h2, h3, h4, h5, h6, p, label {
+            color: white !important;
+        }
+        .stMetric label, .stMetric span {
+            color: white !important;
+        }
+        .stAlert {
+            background-color: #1e1e1e !important;
+            color: white !important;
+            border-left: 5px solid #2196f3 !important;
+        }
+        .stFileUploader button {
+            background-color: black !important;
+            color: white !important;
+            border-radius: 8px;
+            padding: 0.5em 1em;
+            border: none;
+        }
+        .stFileUploader button:hover {
+            background-color: #333 !important;
+            color: white !important;
+        }
+        .profile-summary-container {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 1rem;
+        }
+        .profile-summary-container h4, .profile-summary-container p {
+            color: #000000 !important;
+        }
+        .profile-summary-button button {
+            background-color: #27ae60 !important;
+            color: white !important;
+            border-radius: 8px;
+            border: none;
+        }
+        .profile-summary-button button:hover {
+            background-color: #27ae60 !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown("<h3>📤 ECG Image Upload & Analysis</h3>", unsafe_allow_html=True)
     
     with st.expander("👤 Patient Profile Summary", expanded=False):
+        st.markdown('<div class="profile-summary-container">', unsafe_allow_html=True)
         col1, col2 = st.columns(2)
         with col1:
-            st.write(f"**Name:** {st.session_state.patient_data.get('name', 'N/A')}")
-            st.write(f"**Age:** {st.session_state.patient_data.get('age', 'N/A')}")
-            st.write(f"**Gender:** {st.session_state.patient_data.get('gender', 'N/A')}")
+            st.markdown(f"**Name:** {st.session_state.patient_data.get('name', 'N/A')}", unsafe_allow_html=True)
+            st.markdown(f"**Age:** {st.session_state.patient_data.get('age', 'N/A')}", unsafe_allow_html=True)
+            st.markdown(f"**Gender:** {st.session_state.patient_data.get('gender', 'N/A')}", unsafe_allow_html=True)
         with col2:
-            st.write(f"**Weight:** {st.session_state.patient_data.get('weight', 'N/A')} kg")
+            st.markdown(f"**Weight:** {st.session_state.patient_data.get('weight', 'N/A')} kg", unsafe_allow_html=True)
         
-        if st.button("📝 Edit Profile", use_container_width=True):
+        if st.button("📝 Edit Profile", key="edit_profile", use_container_width=True):
             st.session_state.profile_completed = False
             st.session_state.current_step = 1
             st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
     
     uploaded_file = st.file_uploader(
         "📤 Upload ECG Image", 
@@ -401,61 +504,59 @@ def ecg_upload_analysis():
         image = Image.open(uploaded_file)
         
         if show_preprocessing:
-            st.subheader("📷 Image Processing Steps")
+            st.markdown("<h4>📷 Image Processing Steps</h4>", unsafe_allow_html=True)
             col1, col2, col3 = st.columns(3)
             with col1:
-                st.write("**Original Image**")
+                st.markdown("**Original Image**", unsafe_allow_html=True)
                 st.image(image, use_container_width=True)
             with col2:
                 model = load_model()
-                if model:
-                    _, height, width, channels = model.input_shape
-                    target_size = (height, width)
-                else:
-                    target_size = (180, 180)
+                target_size = (180, 180) if not model else (model.input_shape[1], model.input_shape[2])
                 processed = image.resize(target_size)
-                st.write(f"**Resized to {target_size}**")
+                st.markdown(f"**Resized to {target_size}**", unsafe_allow_html=True)
                 st.image(processed, use_container_width=True)
             with col3:
                 img_array = np.array(processed) / 255.0
-                st.write("**Normalized [0-1]**")
+                st.markdown("**Normalized [0-1]**", unsafe_allow_html=True)
                 st.image(img_array, use_container_width=True)
         else:
             st.image(image, caption="Uploaded ECG Image", use_container_width=True)
-        
+
         quality_metrics = analyze_image_quality(image)
         
-        st.subheader("📊 Image Quality Assessment")
+        st.markdown("<h4>📊 Image Quality Assessment</h4>", unsafe_allow_html=True)
         col1, col2, col3, col4 = st.columns(4)
+        metric_style = "color:white; font-weight:bold;"
         with col1:
-            quality_color = "green" if quality_metrics['quality_score'] > 70 else "orange" if quality_metrics['quality_score'] > 40 else "red"
-            st.metric("Quality Score", f"{quality_metrics['quality_score']:.1f}%", 
-                     help=f"Image quality assessment based on contrast and clarity")
+            st.markdown(f"<div style='{metric_style}'>Quality Score: {quality_metrics['quality_score']:.1f}%</div>", unsafe_allow_html=True)
         with col2:
-            st.metric("Brightness", f"{quality_metrics['brightness']:.1f}")
+            st.markdown(f"<div style='{metric_style}'>Brightness: {quality_metrics['brightness']:.1f}</div>", unsafe_allow_html=True)
         with col3:
-            st.metric("Contrast", f"{quality_metrics['contrast']:.1f}")
+            st.markdown(f"<div style='{metric_style}'>Contrast: {quality_metrics['contrast']:.1f}</div>", unsafe_allow_html=True)
         with col4:
-            st.metric("Resolution", f"{quality_metrics['resolution'][0]}×{quality_metrics['resolution'][1]}")
+            st.markdown(f"<div style='{metric_style}'>Resolution: {quality_metrics['resolution'][0]}×{quality_metrics['resolution'][1]}</div>", unsafe_allow_html=True)
         
         if quality_metrics['quality_score'] < 50:
-            st.warning("⚠️ Image quality is below optimal. Consider uploading a clearer image for better analysis accuracy.")
+            st.markdown('<div style="color:#ff5252;">⚠️ Image quality is below optimal. Consider uploading a clearer image for better analysis accuracy.</div>', unsafe_allow_html=True)
         elif quality_metrics['quality_score'] < 70:
-            st.info("ℹ️ Image quality is acceptable. Analysis will proceed with good accuracy.")
+            st.markdown('<div style="color:#ffb74d;">ℹ️ Image quality is acceptable. Analysis will proceed with good accuracy.</div>', unsafe_allow_html=True)
         else:
-            st.success("✅ Excellent image quality detected. Analysis will have high accuracy.")
+            st.markdown('<div style="color:#81c784;">✅ Excellent image quality detected. Analysis will have high accuracy.</div>', unsafe_allow_html=True)
         
         if st.button("🔍 Analyze ECG", use_container_width=True, type="primary"):
             analyze_ecg(uploaded_file, quality_metrics)
+
+
+
 
 def analyze_ecg(uploaded_file, quality_metrics):
     """Perform ECG analysis and store results"""
     model = load_model()
     if model is None:
-        st.error("❌ Model not available. Please check the model path.")
+        st.markdown("<p style='color:#ff6b6b;'>❌ Model not available. Please check the model path.</p>", unsafe_allow_html=True)
         return
     
-    with st.spinner("🔄 Analyzing ECG pattern... This may take a moment."):
+    with st.spinner("🔄 <span style='color:white;'>Analyzing ECG pattern... This may take a moment.</span>"):
         img_array = preprocess_image(uploaded_file)
         predictions = model.predict(img_array, verbose=0)
         pred_class_idx = np.argmax(predictions, axis=1)[0]
@@ -468,17 +569,64 @@ def analyze_ecg(uploaded_file, quality_metrics):
     }
     st.session_state.analysis_completed = True
     st.session_state.current_step = 3
-    st.success("✅ ECG Analysis Complete!")
+    
+    st.markdown(
+        "<div style='background-color:#00e676; padding:10px; border-radius:8px; color:black; font-weight:bold;'>"
+        "✅ ECG Analysis Complete!"
+        "</div>",
+        unsafe_allow_html=True
+    )
+    
     time.sleep(1)
     st.rerun()
+
 
 # --------------------
 # RESULTS DISPLAY
 # --------------------
 def show_analysis_results():
     """Display comprehensive analysis results"""
+    # Custom styles for black background
+    st.markdown("""
+    <style>
+        h2, h3, h4, h5, h6, p, li, strong {
+            color: white !important;
+        }
+        .metric-card {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #333;
+        }
+        .risk-low {
+            border-left: 6px solid #00e676; /* Green */
+        }
+        .risk-moderate {
+            border-left: 6px solid #ff9800; /* Orange */
+        }
+        .risk-high {
+            border-left: 6px solid #f44336; /* Red */
+        }
+        div.stButton > button {
+            background-color: black !important;
+            color: white !important;
+            border: 1px solid white !important;
+        }
+        div.stButton > button:hover {
+            background-color: #333 !important;
+        }
+        .download-btn {
+            background-color: #00e676 !important;
+            color: black !important;
+            border: none !important;
+            font-weight: bold;
+        }
+    </style>
+    """, unsafe_allow_html=True)
+
     if 'analysis_results' not in st.session_state:
-        st.error("❌ No analysis results found.")
+        st.markdown("<p style='color:#ff6b6b;'>❌ No analysis results found.</p>", unsafe_allow_html=True)
         return
     
     results = st.session_state.analysis_results
@@ -509,40 +657,53 @@ def show_analysis_results():
             st.rerun()
     
     st.subheader("🤖 Personalized Health Recommendations")
-    with st.spinner("Generating personalized recommendations based on your profile..."):
+    with st.spinner("💡 Generating personalized recommendations based on your profile..."):
         suggestions = get_advanced_suggestions(label, st.session_state.patient_data)
     
-    st.markdown(suggestions)
+    st.markdown(f"<div style='color:white;'>{suggestions}</div>", unsafe_allow_html=True)
     
     st.subheader("📥 Download Report")
     col1, col2, col3 = st.columns(3)
+    
     with col1:
-        if st.button("📄 Download PDF Report", use_container_width=True, type="primary"):
+        if st.button("📄 Download PDF Report", use_container_width=True):
             pdf_data = generate_pdf_report(label, suggestions, quality_metrics)
             st.download_button(
                 label="📥 Download PDF",
                 data=pdf_data,
                 file_name=f"ECG_Report_{st.session_state.patient_data.get('name', 'Patient').replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.pdf",
-                mime="application/pdf"
+                mime="application/pdf",
+                use_container_width=True,
+                key="pdf_download",
+                help="Click to download PDF report"
             )
+    
     with col2:
-        if st.button("🖼️ Download JPEG Report", use_container_width=True, type="primary"):
+        if st.button("🖼️ Download JPEG Report", use_container_width=True):
             jpeg_data = generate_jpeg_report(label, suggestions, quality_metrics)
             st.download_button(
                 label="📥 Download JPEG",
                 data=jpeg_data,
                 file_name=f"ECG_Report_{st.session_state.patient_data.get('name', 'Patient').replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.jpeg",
-                mime="image/jpeg"
+                mime="image/jpeg",
+                use_container_width=True,
+                key="jpeg_download",
+                help="Click to download JPEG report"
             )
+    
     with col3:
-        if st.button("🖼️ Download PNG Report", use_container_width=True, type="primary"):
+        if st.button("🖼️ Download PNG Report", use_container_width=True):
             png_data = generate_png_report(label, suggestions, quality_metrics)
             st.download_button(
                 label="📥 Download PNG",
                 data=png_data,
                 file_name=f"ECG_Report_{st.session_state.patient_data.get('name', 'Patient').replace(' ', '_')}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png",
-                mime="image/png"
+                mime="image/png",
+                use_container_width=True,
+                key="png_download",
+                help="Click to download PNG report"
             )
+
 
 def generate_pdf_report(diagnosis, suggestions, quality_metrics):
     """Generate PDF report using reportlab"""
